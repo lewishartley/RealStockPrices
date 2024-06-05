@@ -1,3 +1,4 @@
+pip install pandas_market_calendars
 import requests
 import pandas as pd
 import numpy as np
