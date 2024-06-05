@@ -1,1 +1,7 @@
 pandas_market_calendars==4.4.0
+pandas
+requests
+numpy
+streamlit
+datetime
+plotly
