@@ -11,8 +11,8 @@ fred_api_key = "819e4a9a41b51fba83d9b4d471c12612"
 
 st.title('Real (Inflation Adjusted) Stock Prices')
 
-start_date = st.date_input("Start date", datetime.today() - timedelta(day=1))
-end_date = st.date_input("End date", datetime.today, min_value=start_date + timedelta(days=1), max_value=datetime.today())
+start_date = st.date_input("Start date", max_value=datetime.today() - timedelta(weeks = 12))
+end_date = st.date_input("End date", min_value=start_date + timedelta(days=1), max_value=datetime.today())
 
 infoptions =["CPI", "RPI", "PCE", "PPI"]
 inflation_option = st.selectbox("Inflation Measure", infoptions)
@@ -29,7 +29,8 @@ elif inflation_option == "PPI":
 calendar = get_calendar("NYSE")
 trading_dates = calendar.schedule(start_date = start_date, end_date = end_date).index.strftime("%Y-%m-%d").values #enures start/end dates are trading days & also puts them in correct format for api
 
-ticker_input = st.text_input('Ticker symbol (e.g. AAPL)')
+ticker_input = st.text_input('Ticker symbol (e.g. AAPL)', 'SPY')
+
 ticker_data = pd.json_normalize(requests.get(f"https://api.polygon.io/v2/aggs/ticker/{ticker_input}/range/1/day/{trading_dates[0]}/{trading_dates[-1]}?adjusted=true&sort=asc&limit=50000&apiKey={polygon_api_key}").json()["results"]).set_index("t")
 ticker_data.index = pd.to_datetime(ticker_data.index, unit="ms", utc=True).tz_convert("America/New_York")
 ticker_data.index = pd.to_datetime(ticker_data.index.date)
