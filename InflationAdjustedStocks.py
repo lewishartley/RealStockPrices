@@ -11,8 +11,8 @@ fred_api_key = "819e4a9a41b51fba83d9b4d471c12612"
 
 st.title('Real (Inflation Adjusted) Stock Prices')
 
-start_date = st.date_input("Start date", datetime.today())
-end_date = st.date_input("End date", min_value=start_date + timedelta(days=1), max_value=datetime.today())
+start_date = st.date_input("Start date", datetime.today() - timedelta(day=1))
+end_date = st.date_input("End date", datetime.today, min_value=start_date + timedelta(days=1), max_value=datetime.today())
 
 infoptions =["CPI", "RPI", "PCE", "PPI"]
 inflation_option = st.selectbox("Inflation Measure", infoptions)
